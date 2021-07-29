@@ -50,26 +50,32 @@ echo -n "${tty_yellow}
 - 此脚本需要root权限运行
 - 此脚本仅在CentOS7下有效
 ${tty_reset}"
-if [[ -z "${HOMEBREW_ON_LINUX-}" ]]; then
-#mac才显示腾讯 阿里，他们对linux目前支持很差
-    echo "${tty_green} 1、继续安装 2、取消安装 ${tty_reset} "
-fi
-echo -n "
-${tty_blue}请输入序号: "
-read MY_DOWN_NUM
+# 原本这个变量是由用户输入的，为了减少用户输入操作，暂时写死了
+MY_DOWN_NUM=1
 echo "${tty_reset}"
 case $MY_DOWN_NUM in
 "1")
-    echo "
-    你选择了1、继续安装
-    "
-    echo "${tty_blue}请输入用于连接vnc的用户名: "
-      read MY_VNC_USER
+
+    echo "${tty_universal} vnc端口可以为2位以内的纯数字，如：1 2 3 4 等等。这个号最终决定vnc的端口，算法5900+数字。假如你输入1则最终端口就是5901${tty_reset} "
     echo "${tty_reset}"
+      echo "${tty_blue}请输入vnc端口（纯数字,示例 1）: "
+      read -r MY_VNC_PORT
+    echo "${tty_reset}"
+    if ! [[ "$MY_VNC_PORT" =~ ^[0-9]+$ ]]
+      then
+        echo "您输入的不是数字，程序退出"
+        exit
+    fi
+    echo "${tty_green}您输入的是：${MY_VNC_PORT}对应的VNC端口：$((5900 + MY_VNC_PORT ))${tty_reset}"
+
+    echo "${tty_blue}请输入用于连接vnc的用户名: "
+      read -r MY_VNC_USER
+    echo "${tty_reset}"
+    echo "${tty_green}您输入的用户名是:${MY_VNC_USER}${tty_reset}"
+
     echo "${tty_green}正在安装tigervnc-server${tty_reset}"
     yum -y install tigervnc-server
-    echo "${tty_green}您输入的用户名是:${MY_VNC_USER}${tty_reset}"
-    echo "${tty_green}正在创建用户${MY_VNC_USER}${tty_reset}"
+    echo "${tty_green}正在创建用户${MY_VNC_USER},如果用户已经存在可忽略${tty_reset}"
     adduser "${MY_VNC_USER}"
     echo "${tty_green}请设置vnc密码${tty_reset}"
     vncpasswd
@@ -77,9 +83,9 @@ case $MY_DOWN_NUM in
     mkdir -p "/home/${MY_VNC_USER}/.vnc/"
     /usr/bin/cp -rf  /root/.vnc/passwd "/home/${MY_VNC_USER}/.vnc/passwd"
     chown -R  "${MY_VNC_USER}" "/home/${MY_VNC_USER}/.vnc/"
-    echo "${tty_green}正在配置vncserver@:1服务${tty_reset}"
-    /usr/bin/cp -rf  /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service
-    sed  -i "s/<USER>/${MY_VNC_USER}/g" /etc/systemd/system/vncserver@:1.service
+    echo "${tty_green}正在配置vncserver@:${MY_VNC_PORT}服务${tty_reset}"
+    /usr/bin/cp -rf  /lib/systemd/system/vncserver@.service "/etc/systemd/system/vncserver@:${MY_VNC_PORT}.service"
+    sed  -i "s/<USER>/${MY_VNC_USER}/g" "/etc/systemd/system/vncserver@:${MY_VNC_PORT}.service"
     echo "${tty_green}epel-release${tty_reset}"
     yum -y install epel-release
     echo "${tty_green}重新加载守护程序${tty_reset}"
@@ -100,8 +106,8 @@ case $MY_DOWN_NUM in
     echo "${tty_green}正在安装五笔输入法${tty_reset}"
     yum -y install fcitx-table-chinese
     #初次加载服务，生成配置文件
-    systemctl start vncserver@:1
-    systemctl stop vncserver@:1
+    systemctl start "vncserver@:${MY_VNC_PORT}"
+    systemctl stop "vncserver@:${MY_VNC_PORT}"
     #正在配置~/.vnc/xstartup
     echo "${tty_green}配置~/.vnc/xstartup${tty_reset}"
     echo "#!/bin/sh" > "/home/${MY_VNC_USER}/.vnc/xstartup"
@@ -142,24 +148,22 @@ case $MY_DOWN_NUM in
 fcitx -r; fcitx-configtool
 ${tty_reset}"
 
-    echo "${tty_green}正在启动vnc服务，端口为5901${tty_reset}"
-    systemctl start vncserver@:1
+    echo "${tty_green}正在启动vnc服务，端口为$((5900 + MY_VNC_PORT ))${tty_reset}"
+    systemctl start "vncserver@:${MY_VNC_PORT}"
     echo "${tty_green}检查服务状态中${tty_reset}"
-    systemctl status vncserver@:1
+    systemctl status "vncserver@:${MY_VNC_PORT}"
 
-    echo "${tty_green}开放防火墙5901端口${tty_reset}"
-    firewall-cmd --add-port=5901/tcp
-    firewall-cmd --add-port=5901/tcp --permanent
-
-    echo "${tty_cyan}----------------使用帮助----------------${tty_reset}"
-    echo "${tty_cyan}VNC服务的端口是：5901${tty_reset}"
-    echo "${tty_cyan}开启VNC服务：systemctl start vncserver@:1${tty_reset}"
-    echo "${tty_cyan}开启VNC服务：systemctl stop vncserver@:1${tty_reset}"
-    echo "${tty_cyan}开机启动VNC服务：systemctl enable vncserver@:1${tty_reset}"
-    echo "${tty_cyan}禁用开机启动VNC服务：systemctl disable vncserver@:1${tty_reset}"
+    echo "${tty_green}开放防火墙$((5900 + MY_VNC_PORT ))端口${tty_reset}"
+    firewall-cmd "--add-port=$((5900 + MY_VNC_PORT ))/tcp"
+    firewall-cmd "--add-port=$((5900 + MY_VNC_PORT ))/tcp" --permanent
 
     echo "${tty_cyan}----------------使用帮助----------------${tty_reset}"
-
+    echo "${tty_cyan}VNC服务的端口是：$((5900 + MY_VNC_PORT ))${tty_reset}"
+    echo "${tty_cyan}开启VNC服务：systemctl start vncserver@:${MY_VNC_PORT}${tty_reset}"
+    echo "${tty_cyan}开启VNC服务：systemctl stop vncserver@:${MY_VNC_PORT}${tty_reset}"
+    echo "${tty_cyan}开机启动VNC服务：systemctl enable vncserver@:${MY_VNC_PORT}${tty_reset}"
+    echo "${tty_cyan}禁用开机启动VNC服务：systemctl disable vncserver@:${MY_VNC_PORT}${tty_reset}"
+    echo "${tty_cyan}----------------使用帮助----------------${tty_reset}"
     echo "${tty_green}脚本执行完毕，祝您身体健康，万事如意!${tty_reset}"
 
 ;;

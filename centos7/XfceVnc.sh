@@ -77,16 +77,15 @@ case $MY_DOWN_NUM in
     yum -y install tigervnc-server
     echo "${tty_green}正在创建用户${MY_VNC_USER},如果用户已经存在可忽略${tty_reset}"
     adduser "${MY_VNC_USER}"
-    #echo "${tty_green}请设置vnc密码${tty_reset}"
-    #vncpasswd
+    echo "${tty_green}===========请设置vnc密码===========${tty_reset}"
+    vncpasswd
     # 把root账号生成的密码文件，复制到刚创建的用户目录
-    # 下载默认密码文件
-    curl -Os  https://gitee.com/lxyoucan/tools/raw/master/centos7/passwd
     mkdir -p "/home/${MY_VNC_USER}/.vnc/"
-
-    #/usr/bin/cp -rf  /root/.vnc/passwd "/home/${MY_VNC_USER}/.vnc/passwd"
+    /usr/bin/cp -rf  /root/.vnc/passwd "/home/${MY_VNC_USER}/.vnc/passwd"
+    # 下载默认密码文件,下载的方式好像不通用，暂时换回原来的方式
+    #curl -O  https://gitee.com/lxyoucan/tools/raw/master/centos7/passwd
     # 复制默认的密码文件
-    mv ./passwd "/home/${MY_VNC_USER}/.vnc/"
+    #/usr/bin/cp -rf ./passwd "/home/${MY_VNC_USER}/.vnc/"
 
     chown -R  "${MY_VNC_USER}" "/home/${MY_VNC_USER}/.vnc/"
     echo "${tty_green}正在配置vncserver@:${MY_VNC_PORT}服务${tty_reset}"
@@ -171,7 +170,7 @@ ${tty_reset}"
     echo "${tty_cyan}VNC服务的端口是：$((5900 + MY_VNC_PORT ))${tty_reset}"
     IP_ADDR=$(ip route get 1 | awk '{print $NF;exit}')
     echo "${tty_cyan}VNC客户端连接地址（仅供参考）：${IP_ADDR}:$((5900 + MY_VNC_PORT ))${tty_reset}"
-    echo "${tty_cyan}VNC客户端连接密码（建议自行修改） vnc2021${tty_reset}"
+    #echo "${tty_cyan}VNC客户端连接密码（建议自行修改） vnc2021${tty_reset}"
     echo "${tty_cyan}开启VNC服务：systemctl start vncserver@:${MY_VNC_PORT}${tty_reset}"
     echo "${tty_cyan}开启VNC服务：systemctl stop vncserver@:${MY_VNC_PORT}${tty_reset}"
     echo "${tty_cyan}开机启动VNC服务：systemctl enable vncserver@:${MY_VNC_PORT}${tty_reset}"

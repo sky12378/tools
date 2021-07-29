@@ -1,6 +1,6 @@
 #CentOS7安装Xfce桌面+配置vncserver+Fcitx输入法+搜狗输入
 #lxyoucan@163.com
-
+#2021年7月29日
 
 # 字符串染色程序
 if [[ -t 1 ]]; then
@@ -77,11 +77,17 @@ case $MY_DOWN_NUM in
     yum -y install tigervnc-server
     echo "${tty_green}正在创建用户${MY_VNC_USER},如果用户已经存在可忽略${tty_reset}"
     adduser "${MY_VNC_USER}"
-    echo "${tty_green}请设置vnc密码${tty_reset}"
-    vncpasswd
+    #echo "${tty_green}请设置vnc密码${tty_reset}"
+    #vncpasswd
     # 把root账号生成的密码文件，复制到刚创建的用户目录
+    # 下载默认密码文件
+    curl -Os  https://gitee.com/lxyoucan/tools/raw/master/centos7/passwd
     mkdir -p "/home/${MY_VNC_USER}/.vnc/"
-    /usr/bin/cp -rf  /root/.vnc/passwd "/home/${MY_VNC_USER}/.vnc/passwd"
+
+    #/usr/bin/cp -rf  /root/.vnc/passwd "/home/${MY_VNC_USER}/.vnc/passwd"
+    # 复制默认的密码文件
+    mv ./passwd "/home/${MY_VNC_USER}/.vnc/"
+
     chown -R  "${MY_VNC_USER}" "/home/${MY_VNC_USER}/.vnc/"
     echo "${tty_green}正在配置vncserver@:${MY_VNC_PORT}服务${tty_reset}"
     /usr/bin/cp -rf  /lib/systemd/system/vncserver@.service "/etc/systemd/system/vncserver@:${MY_VNC_PORT}.service"
@@ -161,22 +167,28 @@ ${tty_reset}"
     firewall-cmd "--add-port=$((5900 + MY_VNC_PORT ))/tcp"
     firewall-cmd "--add-port=$((5900 + MY_VNC_PORT ))/tcp" --permanent
 
-     echo "${tty_cyan}----------------使用帮助----------------${tty_reset}"
+     echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
     echo "${tty_cyan}VNC服务的端口是：$((5900 + MY_VNC_PORT ))${tty_reset}"
     IP_ADDR=$(ip route get 1 | awk '{print $NF;exit}')
     echo "${tty_cyan}VNC客户端连接地址（仅供参考）：${IP_ADDR}:$((5900 + MY_VNC_PORT ))${tty_reset}"
+    echo "${tty_cyan}VNC客户端连接密码（建议自行修改） vnc2021${tty_reset}"
     echo "${tty_cyan}开启VNC服务：systemctl start vncserver@:${MY_VNC_PORT}${tty_reset}"
     echo "${tty_cyan}开启VNC服务：systemctl stop vncserver@:${MY_VNC_PORT}${tty_reset}"
     echo "${tty_cyan}开机启动VNC服务：systemctl enable vncserver@:${MY_VNC_PORT}${tty_reset}"
     echo "${tty_cyan}禁用开机启动VNC服务：systemctl disable vncserver@:${MY_VNC_PORT}${tty_reset}"
     echo "${tty_cyan}
-修改分辨率：配置文件/home/${MY_VNC_USER}/.vnc/config
+修改分辨率：
+配置文件/home/${MY_VNC_USER}/.vnc/config
 geometry=1920x1080
 设置完成后，重启服务生效。
 systemctl restart vncserver@:${MY_VNC_PORT}
+修改密码：
+执行下面命令
+su ${MY_VNC_USER}
+vncpasswd
     ${tty_reset}"
 
-    echo "${tty_cyan}----------------使用帮助----------------${tty_reset}"
+    echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
     echo "${tty_green}脚本执行完毕，祝您身体健康，万事如意!${tty_reset}"
 
 ;;

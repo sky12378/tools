@@ -161,12 +161,21 @@ ${tty_reset}"
     firewall-cmd "--add-port=$((5900 + MY_VNC_PORT ))/tcp"
     firewall-cmd "--add-port=$((5900 + MY_VNC_PORT ))/tcp" --permanent
 
-    echo "${tty_cyan}----------------使用帮助----------------${tty_reset}"
+     echo "${tty_cyan}----------------使用帮助----------------${tty_reset}"
     echo "${tty_cyan}VNC服务的端口是：$((5900 + MY_VNC_PORT ))${tty_reset}"
+    IP_ADDR=$(ip route get 1 | awk '{print $NF;exit}')
+    echo "${tty_cyan}VNC客户端连接地址（仅供参考）：${IP_ADDR}:$((5900 + MY_VNC_PORT ))${tty_reset}"
     echo "${tty_cyan}开启VNC服务：systemctl start vncserver@:${MY_VNC_PORT}${tty_reset}"
     echo "${tty_cyan}开启VNC服务：systemctl stop vncserver@:${MY_VNC_PORT}${tty_reset}"
     echo "${tty_cyan}开机启动VNC服务：systemctl enable vncserver@:${MY_VNC_PORT}${tty_reset}"
     echo "${tty_cyan}禁用开机启动VNC服务：systemctl disable vncserver@:${MY_VNC_PORT}${tty_reset}"
+    echo "${tty_cyan}
+修改分辨率：配置文件/home/${MY_VNC_USER}/.vnc/config
+geometry=1920x1080
+设置完成后，重启服务生效。
+systemctl restart vncserver@:${MY_VNC_PORT}
+    ${tty_reset}"
+
     echo "${tty_cyan}----------------使用帮助----------------${tty_reset}"
     echo "${tty_green}脚本执行完毕，祝您身体健康，万事如意!${tty_reset}"
 

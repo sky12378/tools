@@ -77,7 +77,8 @@ case $MY_DOWN_NUM in
     yum -y install tigervnc-server
     echo "${tty_green}正在创建用户${MY_VNC_USER},如果用户已经存在可忽略${tty_reset}"
     adduser "${MY_VNC_USER}"
-    echo "${tty_green}===========请设置vnc密码===========${tty_reset}"
+    #echo "${tty_green}===========请设置vnc密码===========${tty_reset}"
+    echo "${tty_green}===========默认设置vnc密码为vnc2021===========${tty_reset}"
     #vncpasswd
     # 把root账号生成的密码文件，复制到刚创建的用户目录
     mkdir -p "/home/${MY_VNC_USER}/.vnc/"

@@ -126,14 +126,18 @@ case $MY_DOWN_NUM in
     echo "${tty_green}正在安装依赖${tty_reset}"
     yum -y install qtwebkit
     yum -y install dpkg
-    yum -y install alien
     #添加QT依赖
     yum -y install fcitx-qt5 fcitx-configtool
-    yum -y install wget
-    echo "${tty_green}正在下载搜狗输入法${tty_reset}"
-    wget http://cdn2.ime.sogou.com/dl/index/1524572264/sogoupinyin_2.2.0.0108_amd64.deb
-    echo "${tty_green}正在转换安装包${tty_reset}"
-    alien -r --scripts sogoupinyin_2.2.0.0108_amd64.deb
+
+    #检查安装包是否已经存在，如果存在则不重新下载安装包了(优化多次运行脚本的体验)
+    if [ ! -f "./sogoupinyin-2.2.0.0108-2.x86_64.rpm" ]; then
+      yum -y install wget
+      yum -y install alien
+      echo "${tty_green}正在下载搜狗输入法${tty_reset}"
+      wget http://cdn2.ime.sogou.com/dl/index/1524572264/sogoupinyin_2.2.0.0108_amd64.deb
+      echo "${tty_green}正在转换安装包${tty_reset}"
+      alien -r --scripts sogoupinyin_2.2.0.0108_amd64.deb
+    fi
     echo "${tty_green}正在安装搜狗输入法${tty_reset}"
     rpm -ivh --force sogoupinyin-2.2.0.0108-2.x86_64.rpm
     echo "${tty_green}正在配置搜狗输入法${tty_reset}"

@@ -123,6 +123,7 @@ case $MY_DOWN_NUM in
     echo "export GTK_IM_MODULE=fcitx" >> "/home/${MY_VNC_USER}/.vnc/xstartup"
     echo "export QT_IM_MODULE=fcitx" >> "/home/${MY_VNC_USER}/.vnc/xstartup"
     echo "export XMODIFIERS=@im=fcitx" >> "/home/${MY_VNC_USER}/.vnc/xstartup"
+    echo "export LANG=zh_CN.UTF-8" >> "/home/${MY_VNC_USER}/.vnc/xstartup"
     echo "startxfce4" >> "/home/${MY_VNC_USER}/.vnc/xstartup"
     echo "vncserver -kill $DISPLAY" >> "/home/${MY_VNC_USER}/.vnc/xstartup"
     #授权
@@ -190,7 +191,8 @@ vncpasswd
     ${tty_reset}"
 
     echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
-    echo "${tty_green}脚本执行完毕，祝您身体健康，万事如意!${tty_reset}"
+    echo "${tty_green}脚本执行完毕，祝您身体健康，万事如意!
+点赞评论支持一下吧！https://blog.csdn.net/lxyoucan/article/details/119184628${tty_reset}"
 
 ;;
 "2")

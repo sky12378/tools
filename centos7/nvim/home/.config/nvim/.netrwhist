@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/home/apex'
+let g:netrw_dirhist_8='/home/vncuser/.wp/expo/my-project'
+let g:netrw_dirhist_7='/home/vncuser/.wp/expo'
+let g:netrw_dirhist_6='/home/vncuser/.wp/expo/my-project'
+let g:netrw_dirhist_5='/apex/Kirin_v20201015_tomcat_9.0.39_port_9080'
+let g:netrw_dirhist_4='/apex/Kirin_v20201015_tomcat_9.0.39_port_9080/webapps'
+let g:netrw_dirhist_3='/apex/Kirin_v20201015_tomcat_9.0.39_port_9080'
+let g:netrw_dirhist_2='/apex'
+let g:netrw_dirhist_1='/home/vncuser/.wp/expo/my-project'

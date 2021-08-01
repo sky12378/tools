@@ -66,7 +66,14 @@ Gnome 使用ibus输入法很简单，参考
 
 如果有需要一键安装脚本，评论留言我会考虑开发一下。
 
-
+# 一键搭建nvim + react开发环境
+- python3
+- node.js v14
+- nvim-coc等等相关vim插件
+- ranger
+```bash
+sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/nvim/nvimIDE.sh)"
+```
 
 ## 说明
 脚本绿色无后门，可以重复执行。目前只有安装脚本，如果需要卸载，请参考安装脚本。手动执行yum remove .....。

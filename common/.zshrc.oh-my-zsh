@@ -1,0 +1,106 @@
+# 如果您来自bash，则可能必须更改$ PATH。
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# oh-my-zsh安装的路径。
+export ZSH=$HOME/.oh-my-zsh/
+
+# 设置要加载的主题名称---如果设置为“ random”，它将在每次加载oh-my-zsh时加载一个随机主题，在这种情况下，
+# 要知道加载了哪个特定主题，请运行： echo $ RANDOM_THEME
+# 参见https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+#ZSH_THEME="robbyrussell"
+#ZSH_THEME="random"
+ZSH_THEME="tjkirch_mod"
+#ZSH_THEME="agnoster"
+
+#设置随机加载主题的列表
+#在ZSH_THEME = random随机时设置此变量将导致zsh
+#从变量加载主题而不是查看$ZSH/themes/
+#如果设置为空数组，则此变量将无效。
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# 取消注释以下行以使用区分大小写的完成。
+# CASE_SENSITIVE="true"
+
+# 取消注释以下行以使用对连字符不敏感的补全。
+# 必须关闭区分大小写的完成。_和-将可以互换。
+# HYPHEN_INSENSITIVE="true"
+
+# 取消注释以下行以禁用每两周一次的自动更新检查。
+DISABLE_AUTO_UPDATE="true"
+
+# 取消注释以下行以自动更新而不提示。
+# DISABLE_UPDATE_PROMPT="true"
+
+# 取消注释以下行以更改自动更新的频率（以天为单位）。
+# export UPDATE_ZSH_DAYS=13
+
+# 如果粘贴网址和其他文本混乱，请取消注释以下行。
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# 取消注释以下行以禁用ls中的颜色。
+# DISABLE_LS_COLORS="true"
+
+# 取消注释以下行以禁用自动设置终端标题。
+# DISABLE_AUTO_TITLE="true"
+
+# 取消注释以下行以启用命令自动更正。
+# ENABLE_CORRECTION="true"
+
+# 在等待完成时取消注释以下行以显示红点。
+# 警告：此设置可能导致多行提示问题（zsh 5.7.1和更高版本似乎可以工作）
+# 请参阅https://github.com/ohmyzsh/ohmyzsh/issues/5765
+# COMPLETION_WAITING_DOTS="true"
+
+# 如果要禁用在VCS下将未跟踪的文件标记为脏，请取消注释以下行。这使得大型存储库的存储库状态检查快得多了。
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# 如果要更改 历史命令输出中显示的命令执行时间标记，请取消注释以下行。
+# 您可以设置以下三种格式之一：
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# 或使用strftime函数格式规范设置自定义格式，
+# 请参见有关详细信息，请参见“ man strftime”。
+# HIST_STAMPS="mm/dd/yyyy"
+
+#您是否要使用$ZSH/custom以外的其他自定义文件夹？
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# 您想加载哪些插件？
+# 标准插件可以在$ZSH/plugins/中找到
+# 自定义插件可以添加到$ZSH_CUSTOM/plugins/
+# 示例格式：plugins=(rails git textmate ruby lighthouse)
+# 明智地添加，因为太多的插件会减慢Shell启动的速度。
+plugins=(
+	git
+	zsh-autosuggestions
+	vi-mode
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# 用户配置
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# 您可能需要手动设置语言环境
+# export LANG=en_US.UTF-8
+
+# 本地和远程会话的首选编辑器
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# 编译标志
+# export ARCHFLAGS="-arch x86_64"
+
+# 设置个人别名，覆盖oh-my-zsh库，
+# 插件和主题提供的别名。可以在此处放置别名，尽管oh-my-zsh
+# 鼓励用户在ZSH_CUSTOM文件夹中定义别名。
+# 要获取活动别名的完整列表，请运行`alias`。
+#
+# 别名示例
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+source $HOME/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+

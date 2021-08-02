@@ -40,6 +40,7 @@ sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/OpenboxV
 - node.js v14
 - nvim-coc等等相关vim插件
 - ranger
+- oh my zsh自动配置
 ```bash
 sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/nvim/nvimIDE.sh)"
 ```

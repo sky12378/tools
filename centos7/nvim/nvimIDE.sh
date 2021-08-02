@@ -33,7 +33,6 @@ if [[ "$OS" != "Linux" ]]; then
   echo "${tty_red}安装程序只支持linux环境下运行${tty_reset}"
 fi
 
-#选择一个下载源
 echo -n "${tty_green}
 欢迎使用，CentOS7安装neovim react typescript开发环境小助手！本脚本做以下的事情：
 - neovim安装
@@ -50,7 +49,7 @@ ${tty_red}
 脚本会覆盖安装用户以下目录
 .config/ranger
 .config/nvim
-如果这些目录中已经有文件请自行手动备份。
+会自动备份。
 ${tty_blue}
 
 1、继续安装    2、退出安装
@@ -79,10 +78,32 @@ case $MY_DOWN_NUM in
   echo "${tty_blue}请输入用户名(非root普通用户): "
   read -r MY_USER
   echo "${tty_reset}"
+  #-----------判断是否已经安装了zsh------------
+  #ZSH版本
+  MY_ZSH=$(zsh --version)
+  MY_ZSH=${MY_ZSH:0:3}
+  if ! [[ "$MY_ZSH" == 'zsh' ]]; then
+    #git不存在则进行安装
+    echo "${tty_green}=======安装zsh=======${tty_reset}"
+    yum -y install zsh
+  fi
+
   echo "${tty_green}正在创建用户${MY_USER},如果用户已经存在可忽略${tty_reset}"
-  adduser "${MY_USER}"
-  echo "${tty_green}=======正在安装git=======${tty_reset}"
-  yum -y install git
+  #默认新增的用户shell使用zsh
+  adduser -s /bin/zsh "${MY_USER}"
+  #修复已经增加的用户shell 使用zsh
+  usermod --shell /bin/zsh "${MY_USER}"
+
+  #-----------判断是否已经安装了git------------
+  #系统版本
+  MY_GIT=$(git --version)
+  MY_GIT=${MY_GIT:0:3}
+  if ! [[ "$MY_GIT" == 'git' ]]; then
+    #zsh不存在则进行安装
+    echo "${tty_green}=======安装git=======${tty_reset}"
+    yum -y install git
+  fi
+
   yum -y install unzip
   #检查安装包是否已经存在，如果存在则不重新下载安装包了(优化多次运行脚本的体验)
   if [ ! -f "/tmp/nvimdown/centos7/nvim/nvim-linux64-v0.5.0.tar.gz" ]; then
@@ -126,6 +147,9 @@ case $MY_DOWN_NUM in
   runuser -l "${MY_USER}" -c 'pip3 install --user --upgrade ranger-fm -i https://mirrors.aliyun.com/pypi/simple/'
   echo "${tty_green}=======配置ranger=======${tty_reset}"
   mkdir -p "/home/${MY_USER}/.config/ranger"
+  #备份
+  MY_RANGER_BAK="/home/${MY_USER}/.config/ranger_bak_$(date +%Y%m%d"_"%H_%M_%S)"
+  mv "/home/${MY_USER}/.config/ranger" "${MY_RANGER_BAK}"
   /usr/bin/cp -rf "/tmp/nvimdown/centos7/nvim/home/.config/ranger" "/home/${MY_USER}/.config/"
   echo "${tty_green}=======安装highlight=======${tty_reset}"
   yum -y install highlight
@@ -146,6 +170,9 @@ case $MY_DOWN_NUM in
   #替换文件中的<USER>标签为当前用户
   sed -i "s/<USER>/${MY_USER}/g" "/home/${MY_USER}/.local/share/nvim/rplugin.vim"
   chown -R "${MY_USER}" "/home/${MY_USER}/.local/"
+  #备份
+  MY_NVIM_BAK="/home/${MY_USER}/.config/nvim_bak_$(date +%Y%m%d"_"%H_%M_%S)"
+  mv "/home/${MY_USER}/.config/nvim" "${MY_NVIM_BAK}"
   /usr/bin/cp -rf "/tmp/nvimdown/centos7/nvim/home/.config/nvim" "/home/${MY_USER}/.config/"
   /usr/bin/cp -rf "/tmp/nvimdown/centos7/nvim/home/.config/coc.zip" "/home/${MY_USER}/.config/"
   #解压文件
@@ -176,6 +203,54 @@ case $MY_DOWN_NUM in
   fi
 
   #---------安装配置neovim插件 start-----------------------
+
+
+  #---------安装oh my zsh start-----------------------
+  echo "${tty_green}=======正在安装配置oh my zsh=======${tty_reset}"
+  echo "${tty_green}尝试备份~/.zshrc${tty_reset}"
+  echo "${tty_green}文件备份在：/home/${MY_USER}/.zshrc_bak_$(date +%Y%m%d"_"%H_%M_%S)${tty_reset}"
+  #echo "${tty_green}文件备份在：/home/${MY_USER}/.oh-my-zsh_bak_$(date +%Y%m%d"_"%H_%M_%S)${tty_reset}"
+  mv "/home/${MY_USER}/.zshrc" "/home/${MY_USER}/.zshrc_bak_$(date +%Y%m%d"_"%H_%M_%S)"
+  mv "/home/${MY_USER}/.zshrc.oh-my-zsh" "/home/${MY_USER}/.zshrc.oh-my-zsh_bak_$(date +%Y%m%d"_"%H_%M_%S)"
+  #mv "/home/${MY_USER}/.oh-my-zsh" "/home/${MY_USER}/.oh-my-zsh_bak_$(date +%Y%m%d"_"%H_%M_%S)"
+  echo "${tty_green}正在clone oh my zsh${tty_reset}"
+  git clone https://codechina.csdn.net/mirrors/ohmyzsh/ohmyzsh.git "/home/${MY_USER}/.oh-my-zsh"
+  echo "${tty_green}下载oh my zsh配置文件${tty_reset}"
+  curl -fLo "/home/${MY_USER}/.zshrc.oh-my-zsh" https://gitee.com/lxyoucan/tools/raw/master/common/.zshrc.oh-my-zsh
+  echo "${tty_green}下载oh my zsh 语法高亮插件${tty_reset}"
+  git clone https://codechina.csdn.net/mirrors/zsh-users/zsh-syntax-highlighting.git "/home/${MY_USER}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+  echo "${tty_green}下载oh my zsh 自动补全插件${tty_reset}"
+  git clone https://codechina.csdn.net/mirrors/zsh-users/zsh-autosuggestions.git "/home/${MY_USER}/.oh-my-zsh/plugins/zsh-autosuggestions"
+
+  echo "#加载oh my zsh插件" >"/home/${MY_USER}/.zshrc"
+  echo "source ~/.zshrc.oh-my-zsh" >>"/home/${MY_USER}/.zshrc"
+  #文件授权
+  chown -R "${MY_USER}" "/home/${MY_USER}/.oh-my-zsh/"
+  chown -R "${MY_USER}" "/home/${MY_USER}/.zshrc"
+  chown -R "${MY_USER}" "/home/${MY_USER}/.zshrc.oh-my-zsh"
+  echo "${tty_green}=======安装配置oh my zsh完成=======${tty_reset}"
+  #---------安装oh my zsh end-----------------------
+
+
+  #-----------------配置环境变量 start--------------
+  echo 'PATH=$PATH:$HOME/.local/bin:$HOME/bin' >>"/home/${MY_USER}/.zshrc"
+  echo "export RANGER_LOAD_DEFAULT_RC=FALSE" >>"/home/${MY_USER}/.zshrc"
+  echo 'alias ranger='\''ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'\''' >>"/home/${MY_USER}/.zshrc"
+  #-----------------配置环境变量 end----------------
+
+  echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
+  echo "${tty_cyan}neovim 配置文件:${tty_blue} /home/${MY_USER}/.config/nvim/init.vim${tty_reset}"
+  echo "${tty_cyan}oh my zsh安装目录：${tty_blue} /home/${MY_USER}/.oh-my-zsh${tty_reset}"
+  echo "${tty_cyan}oh my zsh配置文件：${tty_blue} /home/${MY_USER}/.zshrc.oh-my-zsh${tty_reset}"
+  echo "${tty_cyan}zsh配置文件：${tty_blue}/home/${MY_USER}/.zshrc${tty_reset}"
+  echo "${tty_cyan}备份文件如下：${tty_reset}"
+  echo "${tty_cyan}${MY_RANGER_BAK}${tty_reset}"
+  echo "${tty_cyan}${MY_NVIM_BAK}${tty_reset}"
+  echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
+  echo "${tty_green}neovim IDE 已经安装配置完成,祝您身体健康，万事如意！${tty_reset}"
+
+
+
 
   ;;
 

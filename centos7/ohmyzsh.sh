@@ -1,5 +1,4 @@
 #oh my zsh插件，ITKEY个性化配置版本,CentOS7且需root权限。
-#国内网络加速
 #lxyoucan@163.com
 
 # 字符串染色程序
@@ -90,11 +89,11 @@ case $MY_DOWN_NUM in
 
   #备份原文件
   #备份原文件
-  echo "${tty_green}尝试备份~/.zshrc|~/.oh-my-zsh${tty_reset}"
+  echo "${tty_green}尝试备份~/.zshrc${tty_reset}"
   echo "${tty_green}文件备份在：/home/${MY_USER}/.zshrc_bak_$(date +%Y%m%d"_"%H_%M_%S)${tty_reset}"
-  echo "${tty_green}文件备份在：/home/${MY_USER}/.oh-my-zsh_bak_$(date +%Y%m%d"_"%H_%M_%S)${tty_reset}"
+  #echo "${tty_green}文件备份在：/home/${MY_USER}/.oh-my-zsh_bak_$(date +%Y%m%d"_"%H_%M_%S)${tty_reset}"
   mv "/home/${MY_USER}/.zshrc" "/home/${MY_USER}/.zshrc_bak_$(date +%Y%m%d"_"%H_%M_%S)"
-  mv "/home/${MY_USER}/.oh-my-zsh" "/home/${MY_USER}/.oh-my-zsh_bak_$(date +%Y%m%d"_"%H_%M_%S)"
+  #mv "/home/${MY_USER}/.oh-my-zsh" "/home/${MY_USER}/.oh-my-zsh_bak_$(date +%Y%m%d"_"%H_%M_%S)"
   echo "${tty_green}正在clone oh my zsh${tty_reset}"
   git clone https://codechina.csdn.net/mirrors/ohmyzsh/ohmyzsh.git "/home/${MY_USER}/.oh-my-zsh"
   echo "${tty_green}下载oh my zsh配置文件${tty_reset}"
@@ -106,6 +105,10 @@ case $MY_DOWN_NUM in
 
   echo "#加载oh my zsh插件" >"/home/${MY_USER}/.zshrc"
   echo "source ~/.zshrc.oh-my-zsh" >>"/home/${MY_USER}/.zshrc"
+  #文件授权
+  chown -R "${MY_USER}" "/home/${MY_USER}/.oh-my-zsh/"
+  chown -R "${MY_USER}" "/home/${MY_USER}/.zshrc"
+  chown -R "${MY_USER}" "/home/${MY_USER}/.zshrc.oh-my-zsh"
 
   echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
   echo "${tty_cyan}已经成功安装在${tty_blue} /home/${MY_USER}/.oh-my-zsh${tty_reset}"

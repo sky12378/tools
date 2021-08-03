@@ -36,7 +36,8 @@ frp_0.37.0_linux_amd64.tar.gz 下载脚本
 ${tty_reset}"
 
 # 原本这个变量是由用户输入的，为了减少用户输入操作，暂时写死了
-read -r MY_DOWN_NUM
+#read -r MY_DOWN_NUM
+MY_DOWN_NUM=1
 echo "${tty_reset}"
 case $MY_DOWN_NUM in
 "1")
@@ -58,13 +59,13 @@ case $MY_DOWN_NUM in
   fi
 
   #检查安装包是否已经存在，如果存在则不重新下载安装包了(优化多次运行脚本的体验)
-  if [ ! -f "/tmp/nvimdown/common/frp/frp_0.37.0_linux_amd64.tar.gz" ]; then
+  if [ ! -f "/tmp/frpdown/common/frp/frp_0.37.0_linux_amd64.tar.gz" ]; then
     echo "${tty_green}=======正在下载frp=======${tty_reset}"
     cd /tmp/
     #创建下载目录
-    mkdir nvimdown
+    mkdir frpdown
     #初始化空仓库
-    cd nvimdown
+    cd frpdown
     git init
     #关联远程地址
     git remote add -f origin https://gitee.com/lxyoucan/tools.git
@@ -77,7 +78,7 @@ case $MY_DOWN_NUM in
     cd "$MY_DIR"
   fi
 
-  cp /tmp/nvimdown/common/frp/frp_0.37.0_linux_amd64.tar.gz "$MY_DIR"
+  cp /tmp/frpdown/common/frp/frp_0.37.0_linux_amd64.tar.gz "$MY_DIR"
   echo "${tty_green}frp_0.37.0_linux_amd64.tar.gz下载完成,祝您身体健康，万事如意！${tty_reset}"
 
   ;;

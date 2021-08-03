@@ -204,6 +204,9 @@ case $MY_DOWN_NUM in
 
   #---------安装配置neovim插件 start-----------------------
 
+  #-----------------安装yarn--------------
+  echo "${tty_green}=======安装yarn=======${tty_reset}"
+  npm install -g yarn
 
   #---------安装oh my zsh start-----------------------
   echo "${tty_green}=======正在安装配置oh my zsh=======${tty_reset}"
@@ -248,6 +251,7 @@ case $MY_DOWN_NUM in
   echo "${tty_cyan}${MY_NVIM_BAK}${tty_reset}"
   echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
   echo "${tty_green}neovim IDE 已经安装配置完成,祝您身体健康，万事如意！${tty_reset}"
+
 
 
 

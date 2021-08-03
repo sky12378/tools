@@ -132,6 +132,12 @@ case $MY_DOWN_NUM in
   chown -R "${MY_USER}" "/home/${MY_USER}/.tmux.conf"
   chown -R "${MY_USER}" "/home/${MY_USER}/.tmux.conf.local"
 
+  echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
+  echo "${tty_cyan}配置文件如下：${tty_reset}"
+  echo "${tty_cyan}/home/${MY_USER}/.tmux.conf${tty_reset}"
+  echo "${tty_cyan}/home/${MY_USER}/.tmux.conf.local${tty_reset}"
+  echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
+
   echo "${tty_green}tmux已经安装完成,祝您身体健康，万事如意！${tty_reset}"
   ;;
 

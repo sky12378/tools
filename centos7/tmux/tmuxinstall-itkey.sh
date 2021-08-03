@@ -62,55 +62,75 @@ case $MY_DOWN_NUM in
 "1")
 
   MY_DIR=$(pwd)
-  echo "${tty_cyan}============编译环境依赖安装git,gcc,gcc-c++,ncurses-devel等等============${tty_reset}"
-  yum install git -y
-  yum install gcc gcc-c++ -y
-  yum install ncurses-devel -y
-  yum install -y automake
-  yum install -y openssl-devel
-  yum install -y glibc-static
-  yum install -y bison
 
-  #检查安装包是否已经存在，如果存在则不重新下载安装包了(优化多次运行脚本的体验)
-  if [ ! -f "/tmp/nvimdown/centos7/tmux/libevent-2.1.12-stable.tar.gz" ]; then
-    echo "${tty_cyan}============正在下载libevent 2.1.12源码包============${tty_reset}"
-    cd /tmp/
-    #创建下载目录
-    mkdir nvimdown
-    #初始化空仓库
-    cd nvimdown
-    git init
-    #关联远程地址
-    git remote add -f origin https://gitee.com/lxyoucan/tools.git
-    #开启Sparse Checkout模式
-    git config core.sparsecheckout true
-    #设置需Check Out的文件
-    echo "centos7/tmux" >>.git/info/sparse-checkout
-    #Check Out
-    git pull origin master
+  echo "${tty_blue}请输入要导入配置的用户名(非root普通用户),不存在则自动创建: "
+  read -r MY_USER
+  echo "${tty_reset}"
+  adduser "${MY_USER}"
+
+  #判断是否已经安装了git
+  #系统版本
+  MY_TMUX=$(tmux -V)
+  MY_TMUX=${MY_TMUX:0:4}
+  if ! [[ "$MY_TMUX" == 'tmux' ]]; then
+    #tmux不存在则进行安装
+    echo "${tty_cyan}============编译环境依赖安装git,gcc,gcc-c++,ncurses-devel等等============${tty_reset}"
+    yum install git -y
+    yum install gcc gcc-c++ -y
+    yum install ncurses-devel -y
+    yum install -y automake
+    yum install -y openssl-devel
+    yum install -y glibc-static
+    yum install -y bison
+
+    #检查安装包是否已经存在，如果存在则不重新下载安装包了(优化多次运行脚本的体验)
+    if [ ! -f "/tmp/nvimdown/centos7/tmux/libevent-2.1.12-stable.tar.gz" ]; then
+      echo "${tty_cyan}============正在下载libevent 2.1.12源码包============${tty_reset}"
+      cd /tmp/
+      #创建下载目录
+      mkdir nvimdown
+      #初始化空仓库
+      cd nvimdown
+      git init
+      #关联远程地址
+      git remote add -f origin https://gitee.com/lxyoucan/tools.git
+      #开启Sparse Checkout模式
+      git config core.sparsecheckout true
+      #设置需Check Out的文件
+      echo "centos7/tmux" >>.git/info/sparse-checkout
+      #Check Out
+      git pull origin master
+      cd "$MY_DIR"
+    fi
+
+    cd /tmp/nvimdown/centos7/tmux/
+    tar -xzvf libevent-2.1.12-stable.tar.gz
+    cd libevent-2.1.12-stable
+    ./configure
+    make -j8
+    make install
     cd "$MY_DIR"
+
+    echo "${tty_cyan}============正在下载tmux的源码============${tty_reset}"
+    git clone https://codechina.csdn.net/mirrors/tmux/tmux.git
+    cd tmux
+    sh autogen.sh
+    echo "${tty_cyan}============正在编译安装tmux============${tty_reset}"
+    ./configure
+    make -j8
+    make install
+    echo "${tty_cyan}============添加libevent_core-2.1.so.7到/lib64/目录============${tty_reset}"
+    cp /usr/local/lib/libevent_core-2.1.so.7 /lib64/
+
   fi
-
-  cd /tmp/nvimdown/centos7/tmux/
-  tar -xzvf libevent-2.1.12-stable.tar.gz
-  cd libevent-2.1.12-stable
-  ./configure
-  make -j8
-  make install
-  cd "$MY_DIR"
-
-  echo "${tty_cyan}============正在下载tmux的源码============${tty_reset}"
-  git clone https://codechina.csdn.net/mirrors/tmux/tmux.git
-  cd tmux
-  sh autogen.sh
-  echo "${tty_cyan}============正在编译安装tmux============${tty_reset}"
-  ./configure
-  make -j8
-  make install
-  echo "${tty_cyan}============添加libevent_core-2.1.so.7到/lib64/目录============${tty_reset}"
-  cp /usr/local/lib/libevent_core-2.1.so.7 /lib64/
   echo "${tty_cyan}============检测tmux版本============${tty_reset}"
   tmux -V
+  echo "${tty_cyan}============增加ITKEY的配置============${tty_reset}"
+
+  /usr/bin/cp -rf "/tmp/nvimdown/centos7/tmux/home/.tmux.conf" "/home/${MY_USER}/.tmux.conf"
+  /usr/bin/cp -rf "/tmp/nvimdown/centos7/tmux/home/.tmux.conf.local" "/home/${MY_USER}/.tmux.conf.local"
+  chown -R "${MY_USER}" "/home/${MY_USER}/.tmux.conf"
+  chown -R "${MY_USER}" "/home/${MY_USER}/.tmux.conf.local"
 
   echo "${tty_green}tmux已经安装完成,祝您身体健康，万事如意！${tty_reset}"
   ;;

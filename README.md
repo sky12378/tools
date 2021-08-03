@@ -86,3 +86,8 @@ sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/ohmyzshin
 sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/ohmyzsh_itkey.sh)"
 ```
 
+## 下载Linux版本frp
+```bash
+sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/frp/frpdown.sh)"
+```
+

@@ -52,6 +52,12 @@ sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/ohmyzsh.
 注意：
 1. **脚本需要root权限执行**
 
+## 编译安装tmux新版本
+```bash
+sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/tmux/tmuxinstall.sh)"
+```
+注意：
+1. **脚本需要root权限执行**
 # 通用脚本
 理论上支持大部分linux发行版本或者macOS
 ## 国内加速oh my zsh一键安装脚本

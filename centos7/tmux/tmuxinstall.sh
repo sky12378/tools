@@ -95,9 +95,9 @@ case $MY_DOWN_NUM in
   cd /tmp/nvimdown/centos7/tmux/
   tar -xzvf libevent-2.1.12-stable.tar.gz
   cd libevent-2.1.12-stable
-  ./configure &
+  ./configure
   make -j8
-  sudo make install
+  make install
   cd "$MY_DIR"
 
   echo "${tty_cyan}============正在下载tmux的源码============${tty_reset}"
@@ -105,16 +105,14 @@ case $MY_DOWN_NUM in
   cd tmux
   sh autogen.sh
   echo "${tty_cyan}============正在编译安装tmux============${tty_reset}"
-  ./configure && make -j8
-  sudo make install
+  ./configure
+  make -j8
+  make install
   echo "${tty_cyan}============添加libevent_core-2.1.so.7到/lib64/目录============${tty_reset}"
   cp /usr/local/lib/libevent_core-2.1.so.7 /lib64/
   echo "${tty_cyan}============检测tmux版本============${tty_reset}"
   tmux -V
 
-  echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
-
-  echo "${tty_cyan}-------------------------使用帮助-------------------------${tty_reset}"
   echo "${tty_green}tmux已经安装完成,祝您身体健康，万事如意！${tty_reset}"
   ;;
 

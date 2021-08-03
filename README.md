@@ -53,8 +53,17 @@ sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/ohmyzsh.
 1. **脚本需要root权限执行**
 
 ## 编译安装tmux新版本
+原汁原味，无配置文件修改
 ```bash
 sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/tmux/tmuxinstall.sh)"
+```
+注意：
+1. **脚本需要root权限执行**
+
+## 编译安装tmux新版本+ITKEY配置
+编译安装+ITKEY配置文件
+```bash
+sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/tmux/tmuxinstall-itkey.sh)"
 ```
 注意：
 1. **脚本需要root权限执行**

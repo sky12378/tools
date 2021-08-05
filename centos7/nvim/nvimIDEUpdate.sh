@@ -122,7 +122,7 @@ case $MY_DOWN_NUM in
   echo "${tty_green}$HOME/.config/coc 目录已经更新${tty_reset}"
   cd "$MY_DIR"
 
-  chown -R "${MY_USER}" "$HOME/.config/"
+  #chown -R "${MY_USER}" "$HOME/.config/"
 
   #---------安装配置neovim插件 end-----------------------
 

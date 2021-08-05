@@ -1,6 +1,4 @@
-#CentOS7搭建nvim开发环境
-# - neovim
-# - nvim-coc
+#同步neovim的配置文件
 #lxyoucan@163.com
 #2021年8月5日
 
@@ -27,21 +25,15 @@ if [[ "$UNAME_MACHINE" != "x86_64" ]]; then
   echo "${tty_red}安装程序只支持x86_64环境下运行${tty_reset}"
 fi
 
-# 判断是Linux还是Mac os
-OS="$(uname)"
-if [[ "$OS" != "Linux" ]]; then
-  echo "${tty_red}安装程序只支持linux环境下运行${tty_reset}"
-fi
-
 echo -n "${tty_green}
-欢迎使用，CentOS7安装neovim 配置文件更新小助手！本脚本做以下的事情：
+欢迎使用，neovim 配置文件更新小助手！本脚本做以下的事情：
 仅用于更新由
 sh -c \"\$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/nvim/nvimIDE.sh)\"
 搭建的环境，更新相关的配置文件和插件。
 只会更新当前用户~/.config/nvim 目录中的文件
 没有执行上面脚本的朋友，不要执行此脚本。
 
-测试环境为：CentOS Linux release 7.9.2009 (Core)。
+测试环境为：MacOS 11.4 | CentOS Linux release 7.9.2009 (Core)。
 须要满足以下条件才可以使用${tty_reset}"
 echo -n "${tty_yellow}
 - 此脚本普通用户执行即可
@@ -51,17 +43,22 @@ ${tty_red}
 脚本会覆盖安装用户以下目录
 .config/nvim
 会自动备份。
-${tty_blue}
-
-1、继续安装    2、退出安装
 "
 # 原本这个变量是由用户输入的，为了减少用户输入操作，暂时写死了
-read -r MY_DOWN_NUM
+#read -r MY_DOWN_NUM
+MY_DOWN_NUM=1
 echo "${tty_reset}"
 case $MY_DOWN_NUM in
 "1")
   MY_DIR=$(pwd)
   MY_USER=$(whoami)
+  MY_CP='"${MY_CP}"'
+  # 判断是Linux还是Mac os
+  OS="$(uname)"
+  if [[ "$OS" != "Linux" ]]; then
+    #macOS中cp命令路径不同
+    MY_CP='/bin/cp'
+  fi
 
   #-----------判断是否已经安装了git------------
   #git版本
@@ -111,8 +108,8 @@ case $MY_DOWN_NUM in
   MY_NVIM_BAK="$HOME/.config/nvim_bak_$(date +%Y%m%d"_"%H_%M_%S)"
   mv "$HOME/.config/nvim" "${MY_NVIM_BAK}"
   echo "${tty_green}$HOME/.config/nvim 目录已经更新${tty_reset}"
-  /usr/bin/cp -rf "$HOME/.nvimupdate/centos7/nvim/home/.config/nvim" "$HOME/.config/"
-  /usr/bin/cp -rf "$HOME/.nvimupdate/centos7/nvim/home/.config/coc.zip" "$HOME/.config/"
+  "${MY_CP}" -rf "$HOME/.nvimupdate/centos7/nvim/home/.config/nvim" "$HOME/.config/"
+  "${MY_CP}" -rf "$HOME/.nvimupdate/centos7/nvim/home/.config/coc.zip" "$HOME/.config/"
   #解压文件
   cd "$HOME/.config/nvim"
   unzip -oq plugged.zip
@@ -128,7 +125,6 @@ case $MY_DOWN_NUM in
   chown -R "${MY_USER}" "$HOME/.config/"
 
   #---------安装配置neovim插件 end-----------------------
-
 
   echo "${tty_green}文件备份：${MY_NVIM_BAK}${tty_reset}"
   echo "${tty_green}更新完成,祝您身体健康，万事如意！${tty_reset}"

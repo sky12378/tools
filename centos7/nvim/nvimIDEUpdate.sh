@@ -52,7 +52,7 @@ case $MY_DOWN_NUM in
 "1")
   MY_DIR=$(pwd)
   MY_USER=$(whoami)
-  MY_CP='"${MY_CP}"'
+  MY_CP='/usr/bin/cp'
   # 判断是Linux还是Mac os
   OS="$(uname)"
   if [[ "$OS" != "Linux" ]]; then

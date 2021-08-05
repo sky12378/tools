@@ -45,7 +45,7 @@ sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/OpenboxV
 sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/nvim/nvimIDE.sh)"
 ```
 
-## 一键搭建nvim
+## 一键更新nvim配置文件
 更新上面脚本搭建的环境的配置文件，不需要root权限，普通用户执行即可。
 ```bash
 sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/centos7/nvim/nvimIDEUpdate.sh)"

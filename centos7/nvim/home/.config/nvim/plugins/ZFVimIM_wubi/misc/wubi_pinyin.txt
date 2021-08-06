@@ -2957,6 +2957,7 @@ avqr 切勿 花妖狐魅
 avqt 黄鼠狼
 avr 芀
 avrh 切掉
+avrnr 切扬
 avrp 切近
 avrq 切换
 avsv 切要
@@ -15711,7 +15712,7 @@ ggto 一番
 ggtq 不平衡
 ggtr 一瓣 一物
 ggts 一条
-ggtt 来来往往 五笔 开玩笑 一笔
+ggtt 五笔 来来往往 开玩笑 一笔
 ggtv 一律
 ggty 不来往 一篇 一簇
 ggu 玶

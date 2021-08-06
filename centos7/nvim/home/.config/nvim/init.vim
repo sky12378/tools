@@ -25,10 +25,11 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 't9md/vim-choosewin'
 "显示css的颜色代码的颜色
 Plug 'ap/vim-css-color'
-"vim内置输入法插件
+"vim输入法
 Plug 'ZSaberLv0/ZFVimIM'
 Plug 'ZSaberLv0/ZFVimJob' " 可选, 用于提升词库加载性能
-"
+Plug 'ZSaberLv0/ZFVimIM_openapi' " 可选, 百度云输入法
+
 
 call plug#end()
 " 使用gruvbox配色
@@ -63,6 +64,8 @@ source ~/.config/nvim/plugins/coc.rc.vim
 source ~/.config/nvim/plugins/denite.rc.vim
 source ~/.config/nvim/plugins/defx.rc.vim
 source ~/.config/nvim/plugins/vim-airline.rc.vim
+"-----输入法  插入模式 ;; 英文/中文切换  ;: 切换 五笔/拼音------
+"五笔输入法
 source ~/.config/nvim/plugins/ZFVimIM_wubi/plugin/ZFVimIM_wubi.vim
-"source /Users/itkey/Downloads/ZFVimIM_xiaohe-main/plugin/ZFVimIM_xiaohe.vim
-
+"拼音输入法
+source ~/.config/nvim/plugins/ZFVimIM_pinyin/plugin/ZFVimIM_pinyin.vim

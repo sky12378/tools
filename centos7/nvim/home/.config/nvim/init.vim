@@ -2,7 +2,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets'
 Plug 'morhetz/gruvbox'
-"主題
+"主题
 Plug 'tomasiser/vim-code-dark'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -25,6 +25,11 @@ Plug 'jlanzarotta/bufexplorer'
 Plug 't9md/vim-choosewin'
 "显示css的颜色代码的颜色
 Plug 'ap/vim-css-color'
+"vim内置输入法插件
+Plug 'ZSaberLv0/ZFVimIM'
+Plug 'ZSaberLv0/ZFVimJob' " 可选, 用于提升词库加载性能
+"
+
 call plug#end()
 " 使用gruvbox配色
 "autocmd vimenter * ++nested colorscheme gruvbox
@@ -58,4 +63,6 @@ source ~/.config/nvim/plugins/coc.rc.vim
 source ~/.config/nvim/plugins/denite.rc.vim
 source ~/.config/nvim/plugins/defx.rc.vim
 source ~/.config/nvim/plugins/vim-airline.rc.vim
+source ~/.config/nvim/plugins/ZFVimIM_wubi/plugin/ZFVimIM_wubi.vim
+"source /Users/itkey/Downloads/ZFVimIM_xiaohe-main/plugin/ZFVimIM_xiaohe.vim
 

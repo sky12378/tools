@@ -1,3 +1,11 @@
+if has("unix")
+  let s:uname = system("uname")
+  if s:uname == "Darwin\n"
+    " 如果是macOS系统则增加图标的宽度，来解决图标 与文件名重叠的问题
+	let g:defx_icons_column_length = 2
+  endif
+endif
+
 " Define mappings
 "cnoreabbrev sf Defx -listed -new
 "      \ -columns=indent:mark:icon:icons:filename:git:size

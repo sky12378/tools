@@ -97,3 +97,20 @@ sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/ohmyzsh_i
 sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/frp/frpdown.sh)"
 ```
 
+## neovim 自动配置文件更新小助手(全平台支持) 
+欢迎使用，neovim 自动配置文件更新小助手！本脚本做以下的事情：
+- 为neovim安装 vim-plug插件管理
+- 安装（或者更新）当前用户~/.config/nvim 目录中的文件
+- 安装（或者更新）当前用户~/.config/ranger 目录中的文件
+- 安装（已存在则跳过）~/.local/share/nvim/site/autoload/plug.vim
+
+理论上支持所有的Linux环境：
+已成功测试环境：
+- MacOS 11.4
+- CentOS Linux release 7.9.2009 (Core)
+- Termux
+- WSL Ubuntu 20.04
+
+```bash
+bash -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/nvimIDE.sh)"
+```

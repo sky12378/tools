@@ -38,18 +38,18 @@ echo -n "${tty_green}
 仅支持Termux环境：
 已成功测试环境：
 - 坚果R1 Termux 版本0.101
-
-须要满足以下条件才可以使用${tty_reset}"
+${tty_reset}"
 echo -n "${tty_yellow}
-请保存已经成功安装了下面的软件：
 
 脚本一键安装没意思？手动安装见：
 https://blog.csdn.net/lxyoucan/article/details/120077959
 对您有用的放在，点赞支持一下！
+${tty_blue}
+1 继续安装  2 退出安装
 "
 # 原本这个变量是由用户输入的，为了减少用户输入操作，暂时写死了
-#read -r MY_DOWN_NUM
-MY_DOWN_NUM=1
+read -r MY_DOWN_NUM
+#MY_DOWN_NUM=1
 echo "${tty_reset}"
 case $MY_DOWN_NUM in
 "1")
@@ -57,22 +57,53 @@ case $MY_DOWN_NUM in
   MY_USER=$(whoami)
   echo "${tty_green}正在设置中国科技大学源${tty_reset}"
   SOURCES_BAK="/data/data/com.termux/files/usr/etc/apt/sources.list_$(date +%Y%m%d"_"%H_%M_%S)"
-  mv /data/data/com.termux/files/usr/etc/apt/sources.list "${SOURCES_BAK}"
+  cp /data/data/com.termux/files/usr/etc/apt/sources.list "${SOURCES_BAK}"
   echo "${tty_green}原sources.list备份至
 ${SOURCES_BAK}
   ${tty_reset}"
-
-
-
+  #sed -i 's@packages.termux.org@mirrors.ustc.edu.cn/termux@' $PREFIX/etc/apt/sources.list
+  echo 'deb https://mirrors.ustc.edu.cn/termux/apt/termux-main stable main' > "$PREFIX/etc/apt/sources.list"
+  echo "${tty_green}中国科技大学源设置完成，正在刷新缓存${tty_reset}"
+  pkg up
+  echo "${tty_green}正在安装python${tty_reset}"
+  #python环境，因为我用到了一些需要python3支持的环境
+  pkg install -y python
+  #nvim不用多说
+  echo "${tty_green}正在安装neovim${tty_reset}"
+  pkg install -y neovim
+  #git用于下载代码，和配置文件
+  echo "${tty_green}正在安装git${tty_reset}"
+  pkg install -y git
+  #ranger我个人比较喜欢的文件管理器
+  echo "${tty_green}正在安装ranger${tty_reset}"
+  pkg install -y ranger
+  # node.js我使用coc插件要用到，我的开发环境也用到
+  echo "${tty_green}正在安装nodejs${tty_reset}"
+  pkg install -y nodejs
+  # 解压用，默认已经安装
+  echo "${tty_green}正在安装unzip${tty_reset}"
+  pkg install -y unzip
+  echo "${tty_green}正在配置pip3国内源(aliyun)加速${tty_reset}"
+  mkdir ~/.pip
+  echo '[global]' >~/.pip/pip.conf
+  echo 'index-url = https://mirrors.aliyun.com/pypi/simple' >>~/.pip/pip.conf
+  echo '' >>~/.pip/pip.conf
+  echo "${tty_green}安装pynvim${tty_reset}"
+  pip3 install --user --upgrade pynvim
+  echo "${tty_green}nodejs切换taobao源${tty_reset}"
+  # 使用nrm工具切换淘宝源
+  npx nrm use taobao
+  echo "${tty_green}安装yarn${tty_reset}"
+  npm install -g yarn
+  echo "${tty_green}安装图标字体Hack Nerd Font${tty_reset}"
+  curl -fLo "${XDG_DATA_HOME:-$HOME}"/.termux/font.ttf --create-dirs \
+       http://ycmit.cn/files/termux/font.ttf
   #---------安装配置neovim插件 end-----------------------
+  echo "${tty_green}执行完成,祝您身体健康，万事如意！
+  欢迎来我的博客点赞评论，支持一波！
+https://blog.csdn.net/lxyoucan/article/details/120077959
 
-  echo "${tty_green}文件备份：
-${MY_NVIM_BAK}
-${MY_COC_BAK}
-${MY_RANGER_BAK}
-${MY_RPLUGIN_BAK}
-${tty_reset}"
-  echo "${tty_green}更新完成,祝您身体健康，万事如意！${tty_reset}"
+  ${tty_reset}"
 
   ;;
 

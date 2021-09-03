@@ -114,3 +114,8 @@ sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/frp/frpdo
 ```bash
 bash -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/nvimIDE.sh)"
 ```
+## Termux安装node.js开发必备软件
+```bash
+bash -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/termux/runtime.sh)"
+```
+

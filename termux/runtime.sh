@@ -92,7 +92,8 @@ ${SOURCES_BAK}
   pip3 install --user --upgrade pynvim
   echo "${tty_green}nodejs切换taobao源${tty_reset}"
   # 使用nrm工具切换淘宝源
-  npx nrm use taobao
+  npm install -g nrm --registry=https://registry.npm.taobao.org
+  nrm use taobao
   echo "${tty_green}安装yarn${tty_reset}"
   npm install -g yarn
   echo "${tty_green}安装图标字体Hack Nerd Font${tty_reset}"

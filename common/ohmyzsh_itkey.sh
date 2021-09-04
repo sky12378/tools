@@ -71,7 +71,11 @@ case $MY_DOWN_NUM in
   git clone https://codechina.csdn.net/mirrors/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/plugins/zsh-autosuggestions
 
   echo "#加载oh my zsh插件" >~/.zshrc
-  echo "source ~/.zshrc.oh-my-zsh" >~/.zshrc
+  echo "source ~/.zshrc.oh-my-zsh" >> ~/.zshrc
+  echo 'PATH=$PATH:$HOME/.local/bin:$HOME/bin' >>"${HOME}/.zshrc"
+  echo "export RANGER_LOAD_DEFAULT_RC=FALSE" >>"${HOME}/.zshrc"
+  echo 'alias ranger='\''ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'\''' >>"${HOME}/.zshrc"
+
   echo "${tty_blue}oh my zsh 已经安装完成。
 请自己安装zsh
 例如：CentOS中:

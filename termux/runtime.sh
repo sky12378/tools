@@ -26,14 +26,15 @@ if [[ "$UNAME_MACHINE" != "aarch64" ]]; then
 fi
 
 echo -n "${tty_green}
-欢迎使用，neovim 自动配置文件更新小助手！本脚本做以下的事情：
-- 切换中科大源
+欢迎使用，termux安装小助手！本脚本做以下的事情：
+- termux切换中科大源
 - 安装git
 - 安装python3
 - 安装nvim+pynvim
-- 安装node.js
+- 安装node.js 并设置taobao源
 - 安装ranger
 - 安装unzip
+- 安装 字体Hack Nerd Font
 
 仅支持Termux环境：
 已成功测试环境：
@@ -98,7 +99,7 @@ ${SOURCES_BAK}
   npm install -g yarn
   echo "${tty_green}安装图标字体Hack Nerd Font${tty_reset}"
   curl -fLo "${XDG_DATA_HOME:-$HOME}"/.termux/font.ttf --create-dirs \
-       http://ycmit.cn/files/termux/font.ttf
+       https://hub.fastgit.org/lxyoucan/nvim/releases/download/v0.1/font.ttf
   #---------安装配置neovim插件 end-----------------------
   echo "${tty_green}执行完成,祝您身体健康，万事如意！
   欢迎来我的博客点赞评论，支持一波！

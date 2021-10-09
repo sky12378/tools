@@ -80,7 +80,7 @@ ${SOURCES_BAK}
   pkg install -y ranger
   # node.js我使用coc插件要用到，我的开发环境也用到
   echo "${tty_green}正在安装nodejs${tty_reset}"
-  pkg install -y nodejs
+  pkg install -y nodejs-lts
   # 解压用，默认已经安装
   echo "${tty_green}正在安装unzip${tty_reset}"
   pkg install -y unzip

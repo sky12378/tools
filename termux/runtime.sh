@@ -26,10 +26,11 @@ if [[ "$UNAME_MACHINE" != "aarch64" ]]; then
 fi
 
 echo -n "${tty_green}
-欢迎使用，termux安装小助手！本脚本做以下的事情：
+欢迎使用，termux常用软件安装小助手！本脚本做以下的事情：
 - termux切换中科大源
 - 安装git
 - 安装python3
+- pip3设置成阿里云的源
 - 安装nvim+pynvim
 - 安装node.js 并设置taobao源
 - 安装ranger
@@ -65,6 +66,7 @@ ${SOURCES_BAK}
   #sed -i 's@packages.termux.org@mirrors.ustc.edu.cn/termux@' $PREFIX/etc/apt/sources.list
   echo 'deb https://mirrors.ustc.edu.cn/termux/apt/termux-main stable main' > "$PREFIX/etc/apt/sources.list"
   echo "${tty_green}中国科技大学源设置完成，正在刷新缓存${tty_reset}"
+  echo "${tty_green}下面会有几个交互操作，默认即可。（直接回车）${tty_reset}"
   pkg up
   echo "${tty_green}正在安装python${tty_reset}"
   #python环境，因为我用到了一些需要python3支持的环境

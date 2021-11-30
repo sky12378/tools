@@ -91,6 +91,13 @@ sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/ohmyzshin
 ```bash
 sh -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/ohmyzsh_itkey.sh)"
 ```
+## node.js 14安装小助手
+欢迎使用，node.js 14安装小助手！ By:ITKEY 日期：2021-11-30
+本脚本用于自动下载安装node.js，因为一些发行版本的软件管理器无法安装新版node.js。
+比如：银河麒麟桌面操作系统V10 (SP1)
+```bash
+bash -c "$(curl -fsSL https://gitee.com/lxyoucan/tools/raw/master/common/node14install.sh)"
+```
 
 ## 下载Linux版本frp
 ```bash
